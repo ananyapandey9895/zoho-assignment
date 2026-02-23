@@ -65,34 +65,39 @@ npm run dev
 
 ## Deployment
 
-### Backend (Render)
+### Backend (Render) - DEPLOYED
 
-1. Create MongoDB Atlas cluster and get connection string
-2. Create new Web Service on Render
-3. Configure:
-   - Root Directory: `backend`
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-4. Add environment variables:
-   - `NODE_ENV=production`
-   - `PORT=10000`
-   - `MONGODB_URI=your_mongodb_atlas_uri`
-   - `STRIPE_SECRET_KEY=your_key`
-   - `STRIPE_PUBLISHABLE_KEY=your_key`
-   - `FRONTEND_URL=your_vercel_url`
+Backend URL: `https://zoho-assignment-1.onrender.com`
 
-### Frontend (Vercel)
+To update CORS for your frontend:
+1. Go to Render dashboard: https://dashboard.render.com
+2. Select your service: `zoho-clone-backend`
+3. Go to "Environment" tab
+4. Add/Update: `FRONTEND_URL=https://zoho-assignment-sepia.vercel.app`
+5. Save (triggers automatic redeploy)
 
-1. Import repository to Vercel
-2. Configure:
-   - Framework: Vite
-   - Root Directory: `frontend`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-3. Add environment variables:
-   - `VITE_FIREBASE_KEY=your_key`
-   - `VITE_STRIPE_PUBLIC_KEY=your_key`
-   - `VITE_API_URL=your_render_backend_url/api`
+### Frontend (Vercel) - DEPLOYED
+
+Frontend URL: `https://zoho-assignment-sepia.vercel.app`
+
+Environment variables configured:
+- `VITE_FIREBASE_KEY=AIzaSyBYKSge-ajWyXSVdlC-kZd3VjdSKWq5gKE`
+- `VITE_STRIPE_PUBLIC_KEY=pk_test_51T3sQuI79Yh7o1QxUibIvtK8NGiIZZU1aCEO4j7mNcTbS0GxiNGAscJ1MIU0xCTuYsUSuT5r6GYgtAIqufx5I7Bb00AnRk5q5Y`
+- `VITE_API_URL=https://zoho-assignment-1.onrender.com/api`
+
+### Post-Deployment Setup
+
+#### 1. Update Backend CORS (Render)
+Add environment variable: `FRONTEND_URL=https://zoho-assignment-sepia.vercel.app`
+
+#### 2. Add Vercel Domain to Firebase
+1. Go to Firebase Console: https://console.firebase.google.com
+2. Select project: "hehe-aefef"
+3. Authentication > Settings > Authorized domains
+4. Add domain: `zoho-assignment-sepia.vercel.app`
+5. Save
+
+After these steps, signin/signup will work on production.
 
 ## Features
 
