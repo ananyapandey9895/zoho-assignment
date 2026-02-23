@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API from '../config/api';
 
 const NewInvoice = () => {
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ const NewInvoice = () => {
                 total: calculateSubTotal(),
                 status: 'Draft'
             };
-            await axios.post('http://localhost:5001/api/invoices', payload);
+            await axios.post(`${API}/invoices`, payload);
             navigate('/invoices');
         } catch (error) {
             console.error('Error creating invoice', error);

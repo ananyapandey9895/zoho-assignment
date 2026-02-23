@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, RefreshCcw, Search, Trash2, Play, Pause } from 'lucide-react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const RecurringInvoices = () => {
     const [templates, setTemplates] = useState([]);

@@ -3,8 +3,8 @@ import { Plus, Filter, Search, FileText, CreditCard, ChevronDown, Download } fro
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import jsPDF from 'jspdf';
-
-const API = 'http://localhost:5001/api';
+import StripePaymentModal from '../components/StripePaymentModal';
+import API from '../config/api';
 
 const Invoices = () => {
     const [invoices, setInvoices] = useState([]);
@@ -12,6 +12,7 @@ const Invoices = () => {
     const [searchParams] = useSearchParams();
     const [statusDropdown, setStatusDropdown] = useState(null);
     const [recordingPayment, setRecordingPayment] = useState(null);
+    const [stripePaymentInvoice, setStripePaymentInvoice] = useState(null);
     const [paymentDetails, setPaymentDetails] = useState({ mode: 'Cash', date: new Date().toISOString().split('T')[0] });
 
     useEffect(() => {
@@ -40,19 +41,9 @@ const Invoices = () => {
         } catch (err) { alert('Error updating status'); }
     };
 
-    const handlePay = async (invoice) => {
-        try {
-            const res = await axios.post(`${API}/payments/create-session`, { invoiceId: invoice._id });
-            if (res.data.url) {
-                window.location.href = res.data.url;
-            }
-        } catch (err) {
-            // If Stripe not configured, mark as paid manually
-            if (confirm('Stripe not configured. Mark as paid manually?')) {
-                await axios.post(`${API}/payments/verify`, { invoiceId: invoice._id });
-                fetchInvoices();
-            }
-        }
+    const handlePay = (invoice) => {
+        // Open Stripe payment modal
+        setStripePaymentInvoice(invoice);
     };
 
     const handleRecordPayment = async () => {
@@ -207,6 +198,19 @@ const Invoices = () => {
                     </tbody>
                 </table>
             </div>
+            {/* Stripe Payment Modal */}
+            {stripePaymentInvoice && (
+                <StripePaymentModal
+                    invoice={stripePaymentInvoice}
+                    isOpen={!!stripePaymentInvoice}
+                    onClose={() => setStripePaymentInvoice(null)}
+                    onSuccess={() => {
+                        setStripePaymentInvoice(null);
+                        fetchInvoices();
+                    }}
+                />
+            )}
+
             {/* Record Payment Modal */}
             {recordingPayment && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">

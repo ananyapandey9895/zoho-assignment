@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Users, Mail, Phone, Building2, X, Trash2, FileText } from 'lucide-react';
 import axios from 'axios';
-
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Customers = () => {
     const [customers, setCustomers] = useState([]);

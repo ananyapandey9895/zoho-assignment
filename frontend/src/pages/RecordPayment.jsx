@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CreditCard, Calendar, User, Search } from 'lucide-react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const RecordPayment = () => {
     const navigate = useNavigate();

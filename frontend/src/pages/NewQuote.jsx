@@ -3,7 +3,7 @@ import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const NewQuote = () => {
     const navigate = useNavigate();

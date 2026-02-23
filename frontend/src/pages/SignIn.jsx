@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, googleProvider, signInWithPopup } from '../firebase';
+import { auth, googleProvider, signInWithPopup, signInWithRedirect } from '../firebase';
+import { getRedirectResult } from 'firebase/auth';
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -9,9 +10,31 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // Check for redirect result on component mount
+    useEffect(() => {
+        const checkRedirectResult = async () => {
+            try {
+                const result = await getRedirectResult(auth);
+                if (result?.user) {
+                    localStorage.setItem('user', JSON.stringify({
+                        name: result.user.displayName,
+                        email: result.user.email,
+                        picture: result.user.photoURL,
+                        uid: result.user.uid
+                    }));
+                    navigate('/dashboard');
+                }
+            } catch (error) {
+                console.error('Redirect result error:', error);
+            }
+        };
+        checkRedirectResult();
+    }, [navigate]);
+
     const handleGoogleSignIn = async () => {
         setLoading(true);
         try {
+            // Try popup first
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
             localStorage.setItem('user', JSON.stringify({
@@ -22,9 +45,26 @@ const SignIn = () => {
             }));
             navigate('/dashboard');
         } catch (error) {
-            console.error('Google sign-in error:', error.message);
-            if (error.code === 'auth/configuration-not-found' || error.code === 'auth/invalid-api-key') {
-                alert('Firebase not configured yet. Please add your Firebase config to src/firebase.js\n\nNavigating to dashboard for demo...');
+            console.error('Google sign-in error:', error.code, error.message);
+            
+            // If popup is blocked or CORS issue, try redirect
+            if (error.code === 'auth/popup-blocked' || 
+                error.code === 'auth/popup-closed-by-user' ||
+                error.message.includes('Cross-Origin-Opener-Policy')) {
+                console.log('Popup blocked, trying redirect method...');
+                try {
+                    await signInWithRedirect(auth, googleProvider);
+                    // User will be redirected, no need to set loading to false
+                    return;
+                } catch (redirectError) {
+                    console.error('Redirect error:', redirectError);
+                }
+            }
+            
+            // For demo purposes, allow navigation if Firebase not configured
+            if (error.code === 'auth/configuration-not-found' || 
+                error.code === 'auth/invalid-api-key') {
+                alert('Firebase not configured. Navigating to dashboard for demo...');
                 navigate('/dashboard');
             }
         } finally {

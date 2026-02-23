@@ -3,7 +3,7 @@ import { Plus, FileText, MoreVertical, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Quotes = () => {
     const [quotes, setQuotes] = useState([]);

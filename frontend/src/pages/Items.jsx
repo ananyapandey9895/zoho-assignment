@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Search, Package, X, Trash2, Edit2 } from 'lucide-react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Items = () => {
     const [items, setItems] = useState([]);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart3, IndianRupee, TrendingUp, FileText, CheckCircle, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Reports = () => {
     const [summary, setSummary] = useState(null);

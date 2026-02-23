@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Settings as SettingsIcon, Building2, User, Bell, Shield, CreditCard, Plus, Trash2 } from 'lucide-react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Settings = () => {
     const [activeTab, setActiveTab] = useState('organization');

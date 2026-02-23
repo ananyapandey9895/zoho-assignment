@@ -26,7 +26,7 @@ const invoiceSchema = new mongoose.Schema({
     termsAndConditions: { type: String },
     paymentId: { type: String },
     paidAt: { type: Date },
-    paymentMode: { type: String, enum: ['Cash', 'Check', 'Bank Transfer', 'Online'], default: 'Online' },
+    paymentMode: { type: String, enum: ['Cash', 'Check', 'Bank Transfer', 'Online', 'Stripe (Online)'], default: 'Online' },
     isRecurring: { type: Boolean, default: false }
 }, { timestamps: true });
 

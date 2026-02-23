@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, IndianRupee, FileText, Users, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Dashboard = () => {
     const [summary, setSummary] = useState(null);

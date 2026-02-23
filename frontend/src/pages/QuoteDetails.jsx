@@ -4,7 +4,7 @@ import { ArrowLeft, FileText, Send, Download, CheckCircle, RefreshCcw } from 'lu
 import axios from 'axios';
 import jsPDF from 'jspdf';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const QuoteDetails = () => {
     const { id } = useParams();

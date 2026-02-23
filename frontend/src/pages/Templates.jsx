@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Palette, Check, ArrowRight } from 'lucide-react';
 import axios from 'axios';
 
-const API = 'http://localhost:5001/api';
+import API from '../config/api';
 
 const Templates = () => {
     const [selectedTemplate, setSelectedTemplate] = useState('standard');
